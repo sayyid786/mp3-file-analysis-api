@@ -1,0 +1,10 @@
+{
+  "all": true,
+  "extension": [".ts"],
+  "include": "src",
+  "exclude": ["coverage/**/*.js", "test/**/*.ts", "src/helpers/*.ts"],
+  "branches": 100,
+  "lines": 100,
+  "functions": 100,
+  "statements": 100
+}

@@ -1,0 +1,49 @@
+{
+  // Extend a base configuration optimized for Node.js 22
+  // This gives us sensible defaults for modern Node environments
+  "extends": "@tsconfig/node22/tsconfig.json",
+
+  "compilerOptions": {
+    // Use CommonJS module system so the output works with Node.js
+    "module": "commonjs",
+
+    // Resolve modules using Node.js resolution logic
+    // (node_modules lookup, index files, etc.)
+    "moduleResolution": "node",
+
+    // Root directory of the TypeScript source files
+    // The compiler will treat this as the base of the project
+    "rootDir": "./",
+
+    // Directory where compiled JavaScript files will be emitted
+    "outDir": "./build",
+
+    // Ensures file imports match the exact casing on disk
+    // Prevents issues when moving between case-sensitive and
+    // case-insensitive file systems (Linux vs macOS/Windows)
+    "forceConsistentCasingInFileNames": true,
+
+    // Throw an error when TypeScript cannot infer a type
+    // Helps prevent accidental use of the `any` type
+    "noImplicitAny": true,
+
+    // Skip type checking of declaration files (.d.ts)
+    // Speeds up compilation and avoids issues in third-party packages
+    "skipLibCheck": true,
+
+    // Allows importing JSON files as modules
+    // Example: import config from "./config.json"
+    "resolveJsonModule": true
+  },
+
+  // Explicitly include additional type definitions
+  // Useful for extending Express Request types or custom globals
+  "files": ["src/types/Request.ts"],
+
+  // Include all TypeScript files inside the src and test directories
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+
+  // Exclude dependencies from compilation
+  // node_modules is excluded because it contains external libraries
+  "exclude": ["./node_modules"]
+}

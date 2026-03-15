@@ -1,0 +1,14 @@
+services:
+  mp3-file-analysis-api:
+    container_name: mp3-file-analysis-api
+    build:
+      context: .
+      target: dev
+    env_file:
+      - .env
+    ports:
+      - 8000:8000 # the api
+      - 9229:9229 # node debugger
+    volumes:
+      - ./:/opt/app:delegated
+      - /opt/app/node_modules
