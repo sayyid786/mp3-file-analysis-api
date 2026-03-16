@@ -117,6 +117,12 @@ npm test
 
 Expected result: tests pass and coverage thresholds are met (100% statements/branches/functions/lines).
 
+An HTML coverage report is generated at `coverage/index.html` after each run. Open it in a browser to view line-by-line coverage:
+
+```bash
+open coverage/index.html
+```
+
 ### Endpoint Details
 
 - Method: `POST`
