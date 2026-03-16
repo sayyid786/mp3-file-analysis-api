@@ -1,7 +1,7 @@
 {
   "name": "mp3-file-analysis-api",
   "version": "1.0.0",
-  "description": "An API that analysis mp3 files",
+  "description": "An Express.js REST API for uploading MP3 files and returning the MPEG Version 1 Layer 3 frame count, with structured JSON logging, request-scoped IDs, Swagger UI documentation, and Docker support.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sayyid786/mp3-file-analysis-api.git"

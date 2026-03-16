@@ -179,9 +179,11 @@ src/
 ├── server/
 │   ├── controllers/                # Request handlers
 │   │   └── mp3FileAnalysis.controller.ts
-│   └── routes/                     # API routes
-│       ├── index.ts
-│       └── mp3FileAnalysis.router.ts
+│   ├── routes/                     # API routes
+│   │   ├── index.ts
+│   │   └── mp3FileAnalysis.router.ts
+│   └── services/                   # Domain logic
+│       └── mp3FileAnalysis.service.ts
 ├── helpers/                        # Helper functions
 │   ├── app.helper.ts
 │   └── express.helper.ts
