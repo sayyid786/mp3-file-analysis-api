@@ -63,19 +63,25 @@ SERVER_SECURE_COOKIES=false
 
 ### Local Development (Recommended)
 
-1. Install dependencies:
+1. Install dependencies (skip if already done during installation):
 
 ```bash
 npm install
 ```
 
-2. Start the API:
+2. Create your environment file:
+
+```bash
+cp .env.example .env
+```
+
+3. Start the API:
 
 ```bash
 npm run start
 ```
 
-3. Confirm the server is running on the configured `SERVER_PORT` (default: `8000`).
+4. Confirm the server is running on `http://localhost:8000`.
 
 ### Docker
 
@@ -103,6 +109,14 @@ Swagger UI is generated from OpenAPI annotations in route files and includes req
 
 ## How to Test the Application
 
+### Run automated unit tests
+
+```bash
+npm test
+```
+
+Expected result: tests pass and coverage thresholds are met (100% statements/branches/functions/lines).
+
 ### Endpoint Details
 
 - Method: `POST`
@@ -127,11 +141,19 @@ Expected success response (`200`):
 }
 ```
 
-Possible validation responses (`400`):
+You can also test invalid input quickly (missing file):
+
+```bash
+curl -X POST http://localhost:8000/file-upload
+```
+
+Expected validation response (`400`):
 
 ```json
 { "message": "No MP3 file found in request" }
 ```
+
+Possible validation responses (`400`):
 
 ```json
 { "message": "Only MP3 files are supported" }
@@ -156,10 +178,10 @@ src/
 ├── app.ts                          # Application entry point
 ├── server/
 │   ├── controllers/                # Request handlers
-│   │   └── mp3-file-analysis.controller.ts
+│   │   └── mp3FileAnalysis.controller.ts
 │   └── routes/                     # API routes
 │       ├── index.ts
-│       └── mp3-file-analysis.router.ts
+│       └── mp3FileAnalysis.router.ts
 ├── helpers/                        # Helper functions
 │   ├── app.helper.ts
 │   └── express.helper.ts
@@ -170,6 +192,7 @@ src/
 │   └── winston.util.ts             # Logger configuration
 └── types/                          # TypeScript type definitions
     ├── Environment.ts
+    ├── Mp3Analysis.ts
     └── Request.ts
 ```
 
@@ -198,7 +221,7 @@ The project uses:
 
 #### Node Inspector
 
-The application supports Node's built-in debugger:
+The Docker development setup exposes Node's built-in debugger on port `9229`:
 
 ```bash
 # Using Docker
