@@ -1,8 +1,20 @@
-import { describe, it } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { getHttpLogger } from '../../src/utils/morgan.util';
 
 describe('morgan.util', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(process.stdout, 'write').returns(true);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('getHttpLogger', () => {
     it('returns a middleware function', () => {
       const middleware = getHttpLogger();

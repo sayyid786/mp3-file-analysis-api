@@ -1,6 +1,9 @@
-import { describe, it } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { getMpeg1Layer3FrameCount } from '../../../src/server/services/mp3FileAnalysis.service';
+import * as winstonUtil from '../../../src/utils/winston.util';
+import mockLogger from '../../helpers/logger.helper';
 
 function createMpeg1Layer3Frame(options?: {
   padding?: number;
@@ -27,6 +30,17 @@ function createMpeg1Layer3Frame(options?: {
 }
 
 describe('mp3FileAnalysis.service', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(winstonUtil, 'getLogger').returns(mockLogger);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('getMpeg1Layer3FrameCount', () => {
     it('returns 0 for an empty buffer', () => {
       expect(getMpeg1Layer3FrameCount(Buffer.alloc(0))).to.deep.equal({

@@ -1,13 +1,25 @@
-import { describe, it } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
 import { fileUpload } from '../../../src/server/controllers/mp3FileAnalysis.controller';
+import * as winstonUtil from '../../../src/utils/winston.util';
 import mockLogger from '../../helpers/logger.helper';
 
 chai.use(sinonChai);
 
 describe('mp3FileAnalysis.controller', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(winstonUtil, 'getLogger').returns(mockLogger);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('fileUpload', () => {
     it('responds with 200 and returns the frame count', async () => {
       const fileBytes = Buffer.from([
