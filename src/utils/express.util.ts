@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import http from 'http';
 import stoppable from 'stoppable';
 import cors from 'cors';
-import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import winston from 'winston';
 import { v4 as uuid } from 'uuid';
@@ -14,19 +13,74 @@ import * as helpers from '../helpers/express.helper';
 
 const moduleName = '/utils/express';
 
-const swaggerSpec = swaggerJSDoc({
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'MP3 File Analysis API',
-      version: '1.0.0',
-      description:
-        'API for uploading MP3 files and returning frame count analysis.',
-    },
-    servers: [{ url: '/' }],
+const swaggerSpec = {
+  openapi: '3.0.0',
+  info: {
+    title: 'MP3 File Analysis API',
+    version: '1.0.0',
+    description:
+      'API for uploading MP3 files and returning frame count analysis.',
   },
-  apis: ['./src/server/routes/*.ts', './build/src/server/routes/*.js'],
-});
+  servers: [{ url: '/' }],
+  paths: {
+    '/file-upload': {
+      post: {
+        tags: ['MP3 Analysis'],
+        summary: 'Upload an MP3 file and return the MPEG1 Layer3 frame count.',
+        requestBody: {
+          required: true,
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                required: ['file'],
+                properties: {
+                  file: {
+                    type: 'string',
+                    format: 'binary',
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'MP3 analysis result.',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    frameCount: {
+                      type: 'number',
+                      example: 358,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid upload request.',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
 
 export const start = async (logger: winston.Logger) => {
   const log = logger.child({ module: moduleName, function: 'start' });

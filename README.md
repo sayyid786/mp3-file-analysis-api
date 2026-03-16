@@ -105,7 +105,7 @@ Once the app is running, open:
 
 - `http://localhost:8000/api-docs`
 
-Swagger UI is generated from OpenAPI annotations in route files and includes request/response schemas for the upload endpoint.
+Swagger UI serves the OpenAPI spec configured in the Express setup and includes request/response schemas for the upload endpoint.
 
 ## How to Test the Application
 
