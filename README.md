@@ -5,6 +5,8 @@ An Express.js API for analyzing and processing MP3 files with structured logging
 ## Features
 
 - Express.js 5 API with TypeScript
+- MP3 upload endpoint that returns MPEG Version 1 Layer 3 frame count
+- Interactive Swagger UI API documentation at `/api-docs`
 - Structured JSON logging with Winston
 - HTTP request logging with Morgan
 - CORS support
@@ -59,48 +61,85 @@ SERVER_SECURE_COOKIES=false
 
 ## Running the Application
 
-### Local Development
+### Local Development (Recommended)
 
-Run the application locally using the npm start script with hot-reload:
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start the API:
 
 ```bash
 npm run start
 ```
 
-This will:
-
-- Start the Express server on the configured `SERVER_PORT` (default: 8000)
-- Enable hot-reload with nodemon on `.ts` and `.json` file changes
-- Use ts-node for TypeScript execution
+3. Confirm the server is running on the configured `SERVER_PORT` (default: `8000`).
 
 ### Docker
 
-Run the application in a Docker container using `docker compose`:
-
-#### Build and Start
+1. Build and run:
 
 ```bash
 docker compose up --build
 ```
 
-#### Start (if image is already built)
-
-```bash
-docker compose up
-```
-
-#### Stop the Container
+2. Stop containers:
 
 ```bash
 docker compose down
 ```
 
-**Docker Configuration:**
+The API is exposed on `http://localhost:8000`.
 
-- API runs on **port 8000** (mapped from container port 8000)
-- Node debugger runs on **port 9229**
-- Volumes are mounted for live code reloading during development
-- The `.env` file is automatically loaded
+## API Documentation (Swagger)
+
+Once the app is running, open:
+
+- `http://localhost:8000/api-docs`
+
+Swagger UI is generated from OpenAPI annotations in route files and includes request/response schemas for the upload endpoint.
+
+## How to Test the Application
+
+### Endpoint Details
+
+- Method: `POST`
+- Path: `/file-upload`
+- Content-Type: `multipart/form-data`
+- Form field name: `file`
+
+### Example Test with curl
+
+Run this command in a new terminal while the app is running:
+
+```bash
+curl -X POST http://localhost:8000/file-upload \
+  -F 'file=@"/absolute/path/to/audio.mp3";type=audio/mpeg'
+```
+
+Expected success response (`200`):
+
+```json
+{
+  "frameCount": 358
+}
+```
+
+Possible validation responses (`400`):
+
+```json
+{ "message": "No MP3 file found in request" }
+```
+
+```json
+{ "message": "Only MP3 files are supported" }
+```
+
+```json
+{ "message": "Uploaded MP3 file is empty" }
+```
 
 ## Response Headers
 

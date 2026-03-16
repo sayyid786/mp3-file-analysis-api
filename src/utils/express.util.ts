@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import http from 'http';
 import stoppable from 'stoppable';
 import cors from 'cors';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import winston from 'winston';
 import { v4 as uuid } from 'uuid';
 import * as environment from './environment.util';
@@ -11,6 +13,20 @@ import router from '../server/routes';
 import * as helpers from '../helpers/express.helper';
 
 const moduleName = '/utils/express';
+
+const swaggerSpec = swaggerJSDoc({
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'MP3 File Analysis API',
+      version: '1.0.0',
+      description:
+        'API for uploading MP3 files and returning frame count analysis.',
+    },
+    servers: [{ url: '/' }],
+  },
+  apis: ['./src/server/routes/*.ts', './build/src/server/routes/*.js'],
+});
 
 export const start = async (logger: winston.Logger) => {
   const log = logger.child({ module: moduleName, function: 'start' });
@@ -34,6 +50,9 @@ export const start = async (logger: winston.Logger) => {
 
   log.verbose('adding http logger');
   app.use(getHttpLogger());
+
+  log.verbose('configuring swagger docs');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   log.verbose('configuring routes');
   app.use('/', router);
