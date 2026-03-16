@@ -69,7 +69,10 @@ describe('express.util', () => {
           app(req, res, () => {
             expect(req.requestId).to.be.a('string');
             expect(req.logger).to.exist;
-            expect(res.setHeader).to.be.calledWith('MP3-FILE-ANALYSIS-ID', req.requestId);
+            expect(res.setHeader).to.be.calledWith(
+              'MP3-FILE-ANALYSIS-ID',
+              req.requestId,
+            );
             done();
           });
           sandbox.stub(fakeServer, 'listen').returns(fakeServer);
@@ -115,4 +118,3 @@ describe('express.util', () => {
     });
   });
 });
-

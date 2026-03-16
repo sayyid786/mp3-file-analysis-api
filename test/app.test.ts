@@ -96,7 +96,10 @@ describe('app', () => {
     it('SIGINT triggers shutdown', async () => {
       sandbox.stub(expressUtil, 'start').resolves();
       sandbox.stub(expressUtil, 'stop').resolves();
-      const setAlreadyShutdownStub = sandbox.stub(appHelper, 'setAlreadyShutdown');
+      const setAlreadyShutdownStub = sandbox.stub(
+        appHelper,
+        'setAlreadyShutdown',
+      );
       await app.startup();
       process.emit('SIGINT');
       await new Promise<void>(resolve => setTimeout(resolve, 10));
@@ -106,7 +109,10 @@ describe('app', () => {
     it('SIGTERM triggers shutdown', async () => {
       sandbox.stub(expressUtil, 'start').resolves();
       sandbox.stub(expressUtil, 'stop').resolves();
-      const setAlreadyShutdownStub = sandbox.stub(appHelper, 'setAlreadyShutdown');
+      const setAlreadyShutdownStub = sandbox.stub(
+        appHelper,
+        'setAlreadyShutdown',
+      );
       await app.startup();
       process.emit('SIGTERM');
       await new Promise<void>(resolve => setTimeout(resolve, 10));
