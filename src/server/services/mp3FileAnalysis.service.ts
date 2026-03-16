@@ -79,6 +79,9 @@ function getFrameSize(fileBuffer: Buffer, offset: number): number {
 // The parser is intentionally tolerant: on invalid data it advances by one byte
 // and keeps searching so it can recover after metadata, junk bytes, or partial
 // corruption instead of failing the whole file.
+// Scalability note: this implementation parses a full in-memory Buffer. For
+// larger workloads, prefer a chunked stream parser and consider worker-thread
+// offload so CPU-bound parsing does not block the event loop.
 export function getMpeg1Layer3FrameCount(bytes: Buffer): Mp3AnalysisResult {
   const log = winston
     .getLogger()

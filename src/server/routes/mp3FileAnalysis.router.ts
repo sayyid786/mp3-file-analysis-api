@@ -5,6 +5,8 @@ import { fileUpload } from '../controllers/mp3FileAnalysis.controller';
 const router = express.Router();
 
 const upload = multer({
+  // Scalability note: memory storage is simple for this assessment, but for
+  // large files/high concurrency prefer streaming or disk-backed uploads.
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 25 * 1024 * 1024,
