@@ -87,13 +87,13 @@ npm run start
 
 ### Docker
 
-1. Build and run:
+1. Ensure your `.env` file is configured (see the Environment Configuration section above).
+
+2. Build and run:
 
 ```bash
 docker compose up --build
 ```
-
-2. Ensure your `.env` file is configured (see the Environment Configuration section above).
 
 3. Stop containers:
 
