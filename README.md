@@ -33,7 +33,13 @@ npm install
 
 ## Environment Configuration
 
-Create a `.env` file in the project root with the following variables:
+Create your environment file from the template:
+
+```bash
+cp .env.example .env
+```
+
+The template includes the following variables:
 
 ```env
 # Application Environment
@@ -69,11 +75,7 @@ SERVER_SECURE_COOKIES=false
 npm install
 ```
 
-2. Create your environment file:
-
-```bash
-cp .env.example .env
-```
+2. Ensure your `.env` file is configured (see the Environment Configuration section above).
 
 3. Start the API:
 
@@ -91,7 +93,9 @@ npm run start
 docker compose up --build
 ```
 
-2. Stop containers:
+2. Ensure your `.env` file is configured (see the Environment Configuration section above).
+
+3. Stop containers:
 
 ```bash
 docker compose down
